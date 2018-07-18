@@ -42,7 +42,7 @@ function addTask(event) {
   taskList.appendChild(li);
   taskInput.value = '';
 
-  // prevent submitting the form and reloading the page
+  // prevent submitting the form and reloading the pagegit s
   event.preventDefault();
 }
 
