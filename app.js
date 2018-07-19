@@ -41,9 +41,11 @@ function addTask(event) {
 // Removing task from the list
 function removeTask(event) {
   let trashIcon = event.target;
+  let li = trashIcon.parentNode.parentNode;
   if (trashIcon.parentNode.classList.contains('delete-item')) {
-    trashIcon.parentNode.parentNode.remove();
-    removeTaskFromLS(trashIcon.parentNode.parentNode)
+    const index = Array.from(li.parentNode.children).indexOf(li);
+    li.remove();
+    removeTaskFromLS(li, index);
   }
 }
 
@@ -101,7 +103,7 @@ function storeTaskInLS(task) {
 }
 
 //Removing task from local storage
-function removeTaskFromLS(taskTrash) {
+function removeTaskFromLS(taskTrash, taskIndex) {
   // check local storage and create tasks array
   let tasks = checkLS();
   /*tasks.forEach((taskLS, index) => {
@@ -109,7 +111,7 @@ function removeTaskFromLS(taskTrash) {
       tasks.splice(index, 1);
     }
   })*/
-  tasks = tasks.filter(taskLS => taskLS !== taskTrash.textContent);
+  tasks = tasks.filter((taskLS, indexLS) => !(taskLS === taskTrash.textContent && indexLS === taskIndex));
   localStorage.setItem('tasks', JSON.stringify(tasks));
 }
 
