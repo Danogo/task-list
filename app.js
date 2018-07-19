@@ -10,8 +10,14 @@ loadEventListeners();
 
 // function for loading all event listeners
 function loadEventListeners() {
-  // add task
+  // "add task" event
   form.addEventListener('submit', addTask);
+  // "remove task" event
+  taskList.addEventListener('click', removeTask);
+  // "clear tasks" event
+  clearBtn.addEventListener('click', clearTasks);
+  // "filter tasks" event
+  filter.addEventListener('keyup', filterTasks);
 }
 
 // callback function for adding new task to the list
@@ -46,3 +52,32 @@ function addTask(event) {
   event.preventDefault();
 }
 
+// callback function for removing task from the list
+function removeTask(event) {
+  if (event.target.parentNode.classList.contains('delete-item')) {
+    event.target.parentNode.parentNode.remove();
+  }
+}
+
+// callback function for removing all tasks from the list
+function clearTasks() {
+  // while (taskList.firstChild) {
+  //   taskList.removeChild(taskList.firstChild);
+  // }
+  // faster
+  taskList.innerHTML = '';
+}
+
+// callback function for filtering the tasks
+function filterTasks(event) {
+  const text = event.target.value.toLowerCase();
+
+  document.querySelectorAll('.collection-item').forEach( task => {
+    const item = task.firstChild.textContent;
+    if (item.toLowerCase().indexOf(text) !== -1) {
+      task.style.display = 'block';
+    } else {
+      task.style.display = 'none';
+    }
+  });
+}
